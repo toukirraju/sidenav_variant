@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { BaseButtonIcon, BaseTag } from "@shuriken-ui/react";
@@ -140,46 +134,28 @@ const GroupMenu = ({ navData, showGroupOnly }) => {
 
 const AccordionGroup = ({ group }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.style.maxHeight = isOpen
-        ? `${contentRef.current.scrollHeight}px`
-        : "0px";
-    }
-  }, [isOpen]);
-
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <li className="mb-4">
       <button
-        onClick={toggleAccordion}
+        onClick={() => setIsOpen(!isOpen)}
         className="w-full text-left p-2 text-white hover:bg-gray-600 flex justify-between items-center"
       >
         {group.title}
         {group.children && group.children.length > 0 && (
           <Icon
             icon={isOpen ? "ph:caret-up" : "ph:caret-down"}
-            className="text-xl transition-transform duration-300"
+            className="text-xl"
           />
         )}
       </button>
-      <div
-        ref={contentRef}
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-      >
-        {group.children && group.children.length > 0 && (
-          <ul className="nested-children">
-            {group.children.map((child) => (
-              <MenuItemBase key={child.title} item={child} />
-            ))}
-          </ul>
-        )}
-      </div>
+      {isOpen && group.children && group.children.length > 0 && (
+        <ul className=" nested-children">
+          {group.children.map((child) => (
+            <MenuItemBase key={child.title} item={child} />
+          ))}
+        </ul>
+      )}
     </li>
   );
 };
@@ -187,14 +163,6 @@ const AccordionGroup = ({ group }) => {
 const MenuItemBase = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { state, updateState } = useContext(SidebarContext);
-  const contentRef = useRef(null);
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.style.maxHeight = isOpen
-        ? `${contentRef.current.scrollHeight}px`
-        : "0px";
-    }
-  }, [isOpen]);
 
   const handleClick = () => {
     if (item.type === "modal") {

@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
+import { withShurikenUI } from "@shuriken-ui/tailwind";
 
-const config: Config = {
+const config: Config = withShurikenUI({
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@shuriken-ui/react/dist/index.js",
   ],
   theme: {
     extend: {
@@ -16,5 +18,5 @@ const config: Config = {
     },
   },
   plugins: [],
-};
+});
 export default config;
